@@ -59,5 +59,33 @@ Print the list of feature names and feature matrix contained in `bag_of_words`. 
 from sklearn.feature_extraction.text import CountVectorizer
 ```
 
-**Q5.** [2 points] Using `bag_of_words` as input, create a Pandas dataframe `df` that contains the BOW feature matrix as row data and feature names as column headers.  Print the head of df.
+**Q5.** [1 points] Using `bag_of_words` as input, create a Pandas dataframe `df` that contains the BOW feature matrix as row data and feature names as column headers.  Print the head of `df`.
 
+**Q6.** [2 points] Create `tfidf` object containing Term Frequency - Inverse Document Frequency (TF-IDF) with 5 maximum `features` and `stop_words` arguments:
+
+```python
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf = TfidfVectorizer(max_features=5, stop_words='english')
+```
+
+Using first 20 items of tokenized_sentences as a corpus, extract TF-IDF of the data into `tfidf` and print the resulting feature names.  Try running the code without the stop word argument and compare the results. Explain the difference you observe in the outputs (one paragraph description in your own words).
+
+**Q7.** [3 points] For this question, you’re going to build a Word2Vec vector representation of the data in the story.  To do that, create a new 2D array `alice_data` that contains all tokenized sentences and words. The array should be structured so that to access sentence index `si` and word index `wj` you would call: `alice_data[si][wj]`
+
+For example, the output of of `alice_data[2][0]` would be 'there' and `alice_data[2]` would be:
+```
+['there', 'was', 'nothing', 'so', 'very', 'remarkable', 'in', 'that', ';', 'nor', 'did', 'alice', 'think', 'it', 'so', 'very', 'much', 'out', 'of', 'the', 'way', 'to', 'hear', 'the', 'rabbit', 'say', 'to', 'itself', ',', '‘', 'oh', 'dear', '!']
+```
+
+Next, create a Word2Vec model of `alice_data` with the following parameters:
+
+```python
+import gensim
+model = gensim.models.Word2Vec(alice_data, min_count=1, size = 100, window = 5)
+```
+
+You should now be able to call `model.similarity()` function between any two words in the story, such as: `model.similarity('alice', 'wonderland')`
+
+The computed similarity between these words is high (>0.99).  Explain what this means (one sentence in your own words), then try to find words in the text that will have substantially lower similarity score.  List at least 3 words pairs that have similarity below 0.90. Can you find any below 0.80? 
+
+ 
